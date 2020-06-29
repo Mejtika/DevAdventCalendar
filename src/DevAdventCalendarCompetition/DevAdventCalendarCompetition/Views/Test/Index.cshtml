@@ -59,7 +59,7 @@
                             </div>
                         }
 
-                        var errorMessage = Html.ValidationMessageFor(m => m.Answer);
+                        var errorMessage = Html.ValidationMessageFor(m => m.CorrectAnswers);
 
                         if (!string.IsNullOrEmpty(errorMessage.ToString()))
                         {

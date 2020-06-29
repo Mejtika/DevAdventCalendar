@@ -15,6 +15,12 @@ $(function () {
             $(this).closest("li").addClass("active");
         }
     });
+
+    $("#ansbtn").on("click", function () {
+
+        $("#ans").clone().appendTo("#answer");
+
+    });
 });
 
 function CheckTestStatus(testNumber) {
