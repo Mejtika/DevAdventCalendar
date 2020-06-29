@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,12 +15,14 @@ namespace DevAdventCalendarCompetition.Repository.Models
 
     public class Test : ModelBase
     {
-        private DateTime? endDate;
-
+        // private DateTime? endDate;
         public int Number { get; set; }
 
         public DateTime? StartDate { get; set; }
 
+        public DateTime? EndDate { get; set; }
+
+        /*
         public DateTime? EndDate
         {
             get
@@ -39,6 +41,11 @@ namespace DevAdventCalendarCompetition.Repository.Models
                 this.endDate = value;
             }
         }
+        */
+
+#pragma warning disable CA2227 // Collection properties should be read only
+        public List<TestCorrectAnswer> CorrectAnswers { get; set; } = new List<TestCorrectAnswer>();
+#pragma warning restore CA2227 // Collection properties should be read only
 
 #pragma warning disable CA2227 // Collection properties should be read only
         public ICollection<TestAnswer> Answers { get;  set; }
@@ -95,8 +102,6 @@ namespace DevAdventCalendarCompetition.Repository.Models
         public Uri SponsorLogoUrl { get; set; }
 
         public string Description { get; set; }
-
-        public string HashedAnswer { get; set; }
 
         public string Discount { get; set; }
 

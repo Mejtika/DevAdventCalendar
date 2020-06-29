@@ -27,6 +27,11 @@ namespace DevAdventCalendarCompetition.Repository.Context
                 throw new ArgumentNullException(nameof(builder));
             }
 
+            builder.Entity<Test>().OwnsMany(t => t.CorrectAnswers, b =>
+            {
+                b.ToTable("TestCorrectAnswers");
+            });
+
             builder.Entity<Test>()
                 .Property(t => t.SponsorLogoUrl)
                 .HasConversion(v => v.ToString(), v => new Uri(v, UriKind.RelativeOrAbsolute));
