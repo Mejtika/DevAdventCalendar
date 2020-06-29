@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using DevAdventCalendarCompetition.Repository.Interfaces;
 using DevAdventCalendarCompetition.Repository.Models;
@@ -77,9 +80,9 @@ namespace DevAdventCalendarCompetition.Services
             this._testAnswerRepository.AddWrongAnswer(testWrongAnswer);
         }
 
-        public bool VerifyTestAnswer(string userAnswer, string correntAnswer)
+        public bool VerifyTestAnswer(string userAnswer, IEnumerable<string> correctAnswers)
         {
-            return this._stringHasher.VerifyHash(userAnswer, correntAnswer);
+            return correctAnswers.Any(t => this._stringHasher.VerifyHash(userAnswer, t));
         }
     }
 }

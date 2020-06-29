@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using DevAdventCalendarCompetition.Repository.Interfaces;
 using DevAdventCalendarCompetition.Repository.Models;
@@ -57,10 +58,11 @@ namespace DevAdventCalendarCompetition.Services
                 throw new ArgumentNullException(nameof(testDto));
             }
 
-            string hashedAnswer = this._stringHasher.ComputeHash(testDto.Answer);
+            var testCorrectAnswers = testDto.CorrectAnswers.Select(m => new TestCorrectAnswer { HashedAnswer = this._stringHasher.ComputeHash(m.Answer) }).ToList();
 
             var test = this._mapper.Map<Test>(testDto);
-            test.HashedAnswer = hashedAnswer;
+
+            test.CorrectAnswers = testCorrectAnswers;
             this._testRepository.AddTest(test);
         }
 

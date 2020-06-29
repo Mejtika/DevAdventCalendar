@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using DevAdventCalendarCompetition.Repository.Models;
 using DevAdventCalendarCompetition.Services.Models;
 
@@ -12,12 +12,13 @@ namespace DevAdventCalendarCompetition.Services.Profiles
         public TestProfile()
 #pragma warning restore CA1506
         {
+            this.CreateMap<TestCorrectAnswer, TestCorrectAnswerDto>()
+                .ForMember(dest => dest.Answer, opt => opt.MapFrom(src => src.HashedAnswer)).ReverseMap();
             this.CreateMap<Test, TestDto>()
-                .ForMember(dest => dest.Answer, opt => opt.MapFrom(src => src.HashedAnswer))
                 .ForMember(dest => dest.HasUserAnswered, opt => opt.Ignore());
             this.CreateMap<TestDto, Test>()
                 .ForMember(dest => dest.Answers, opt => opt.Ignore())
-                .ForMember(dest => dest.HashedAnswer, opt => opt.Ignore())
+                .ForMember(dest => dest.CorrectAnswers, opt => opt.Ignore())
                 .ForMember(dest => dest.WrongAnswers, opt => opt.Ignore());
             this.CreateMap<TestAnswer, TestAnswerDto>()
                 .ForMember(dest => dest.AnsweringTime, opt => opt.MapFrom(src => src.AnsweringTime))

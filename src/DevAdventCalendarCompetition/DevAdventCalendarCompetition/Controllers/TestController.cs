@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Security.Claims;
 using DevAdventCalendarCompetition.Models.Test;
 using DevAdventCalendarCompetition.Repository.Models;
@@ -66,18 +67,18 @@ namespace DevAdventCalendarCompetition.Controllers
 
             if (test.Status == TestStatus.Ended || test.Status == TestStatus.NotStarted)
             {
-                this.ModelState.AddModelError("Answer", "Wystąpił błąd!");
+                this.ModelState.AddModelError("CorrectAnswers", "Wystąpił błąd!");
                 return this.View("Index", test);
             }
 
-            if (this._testService.VerifyTestAnswer(finalAnswer, test.Answer))
+            if (this._testService.VerifyTestAnswer(finalAnswer, test.CorrectAnswers.Select(t => t.Answer).ToList()))
             {
                 var answerViewModel = this.SaveAnswer(test);
                 return this.View("TestAnswered", answerViewModel);
             }
 
             this.SaveWrongAnswer(test.Id, finalAnswer);
-            this.ModelState.AddModelError("Answer", "Źle! Spróbuj ponownie :)");
+            this.ModelState.AddModelError("CorrectAnswers", "Źle! Spróbuj ponownie :)");
 
             return this.View("Index", test);
         }
