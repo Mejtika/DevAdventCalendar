@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using DevAdventCalendarCompetition.Repository.Models;
 
 namespace DevAdventCalendarCompetition.Services.Models
@@ -15,7 +16,9 @@ namespace DevAdventCalendarCompetition.Services.Models
 
         public string Description { get; set; }
 
-        public string Answer { get; set; }
+#pragma warning disable CA2227 // Collection properties should be read only
+        public List<TestCorrectAnswerDto> CorrectAnswers { get; set; } = new List<TestCorrectAnswerDto>();
+#pragma warning restore CA2227 // Collection properties should be read only
 
         public string PlainAnswer { get; set; }
 
