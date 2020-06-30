@@ -16,10 +16,25 @@ $(function () {
         }
     });
 
-    $("#ansbtn").on("click", function () {
-
+    var count = 0;
+    $("#ansbtnadd").on("click", function () {
         $("#ans").clone().appendTo("#answer");
+        if (count === 0) {
+            $("#ansbtnrem").removeClass(function (index, currentClass) {
+                return "hidden";
+            });
+        }
+        count++;
+    });
 
+    $("#ansbtnrem").on("click", function () {
+        $("#answer #ans").last().remove();
+        count--;
+        if (count === 0) {
+            $("#ansbtnrem").addClass(function(index, currentClass) {
+                return "hidden";
+            });
+        }
     });
 });
 

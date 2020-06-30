@@ -13,6 +13,10 @@ a {
     text-decoration: none;
 }
 
+.hidden {
+    display: none;
+}
+
     a:hover {
         color: #831e1e;
         text-decoration: underline;
