@@ -2,7 +2,7 @@ using System;
 
 namespace DevAdventCalendarCompetition.Services.Models
 {
-    public class TestWrongAnswerDto
+    public class TestCorrectAnswerDto
     {
         public int TestId { get; set; }
 
@@ -12,6 +12,6 @@ namespace DevAdventCalendarCompetition.Services.Models
 
         public DateTime AnsweringTime { get; set; }
 
-        public string Answer { get; set; }
+        public TimeSpan AnsweringTimeOffset { get; set; }
     }
 }

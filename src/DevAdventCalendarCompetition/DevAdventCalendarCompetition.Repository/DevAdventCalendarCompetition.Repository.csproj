@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20191118124021_ResultUpdate.Designer.cs" />
     <Compile Remove="Migrations\20191128232925_NullableResultsFields.cs" />
     <Compile Remove="Migrations\20191128232925_NullableResultsFields.Designer.cs" />
+    <Compile Remove="Migrations\20200706074247_CorrectIds.cs" />
+    <Compile Remove="Migrations\20200706074247_CorrectIds.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,11 +4,11 @@ using DevAdventCalendarCompetition.Repository.Models;
 
 namespace DevAdventCalendarCompetition.Repository.Interfaces
 {
-    public interface ITestAnswerRepository
+    public interface IUserTestAnswersRepository
     {
-        TestAnswer GetAnswerByTestId(int testId);
+        UserTestCorrectAnswer GetAnswerByTestId(int testId);
 
-        TestAnswer GetTestAnswerByUserId(string userId, int testId);
+        UserTestCorrectAnswer GetTestAnswerByUserId(string userId, int testId);
 
         int GetCorrectAnswersCountForUser(string userId);
 
@@ -18,10 +18,10 @@ namespace DevAdventCalendarCompetition.Repository.Interfaces
 
         bool HasUserAnsweredTest(string userId, int testId);
 
-        void UpdateAnswer(TestAnswer testAnswer);
+        void UpdateAnswer(UserTestCorrectAnswer testAnswer);
 
-        void AddAnswer(TestAnswer testAnswer);
+        void AddAnswer(UserTestCorrectAnswer testAnswer);
 
-        void AddWrongAnswer(TestWrongAnswer wrongAnswer);
+        void AddWrongAnswer(UserTestWrongAnswer wrongAnswer);
     }
 }

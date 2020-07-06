@@ -11,16 +11,16 @@ namespace DevAdventCalendarCompetition.Services
 {
     public class HomeService : IHomeService
     {
-        private readonly ITestAnswerRepository _testAnswerRepository;
+        private readonly IUserTestAnswersRepository _userTestAnswersRepository;
         private readonly ITestRepository _testRepository;
         private readonly IMapper _mapper;
 
         public HomeService(
-            ITestAnswerRepository testAnswerRepository,
+            IUserTestAnswersRepository userTestAnswersRepository,
             ITestRepository testRepository,
             IMapper mapper)
         {
-            this._testAnswerRepository = testAnswerRepository;
+            this._userTestAnswersRepository = userTestAnswersRepository;
             this._testRepository = testRepository;
             this._mapper = mapper;
         }
@@ -37,10 +37,10 @@ namespace DevAdventCalendarCompetition.Services
             return testDto;
         }
 
-        public TestAnswerDto GetTestAnswerByUserId(string userId, int testId)
+        public TestCorrectAnswerDto GetTestAnswerByUserId(string userId, int testId)
         {
-            var testAnswer = this._testAnswerRepository.GetTestAnswerByUserId(userId, testId);
-            var testAnswerDto = this._mapper.Map<TestAnswerDto>(testAnswer);
+            var testAnswer = this._userTestAnswersRepository.GetTestAnswerByUserId(userId, testId);
+            var testAnswerDto = this._mapper.Map<TestCorrectAnswerDto>(testAnswer);
             return testAnswerDto;
         }
 
@@ -51,10 +51,10 @@ namespace DevAdventCalendarCompetition.Services
             return allTestsDtoList;
         }
 
-        public List<TestWithAnswerListDto> GetTestsWithUserAnswers()
+        public List<TestWithUserCorrectAnswerListDto> GetTestsWithUserAnswers()
         {
             var testList = this._testRepository.GetTestsWithUserAnswers();
-            var testWithAnswersDtoList = this._mapper.Map<List<TestWithAnswerListDto>>(testList);
+            var testWithAnswersDtoList = this._mapper.Map<List<TestWithUserCorrectAnswerListDto>>(testList);
             return testWithAnswersDtoList;
         }
 
@@ -67,7 +67,7 @@ namespace DevAdventCalendarCompetition.Services
 
         public int GetCorrectAnswersCountForUser(string userId)
         {
-            return this._testAnswerRepository.GetCorrectAnswersCountForUser(userId);
+            return this._userTestAnswersRepository.GetCorrectAnswersCountForUser(userId);
         }
     }
 }

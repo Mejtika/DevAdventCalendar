@@ -12,11 +12,11 @@ namespace DevAdventCalendarCompetition.Repository.Context
         {
         }
 
-        public DbSet<Test> Test { get; set; }
+        public DbSet<Test> Tests { get; set; }
 
-        public DbSet<TestAnswer> TestAnswer { get; set; }
+        public DbSet<UserTestCorrectAnswer> TestCorrectAnswers { get; set; }
 
-        public DbSet<TestWrongAnswer> TestWrongAnswer { get; set; }
+        public DbSet<UserTestWrongAnswer> TestWrongAnswers { get; set; }
 
         public DbSet<Result> Results { get; set; }
 
@@ -27,23 +27,9 @@ namespace DevAdventCalendarCompetition.Repository.Context
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.Entity<Test>()
-                .Property(t => t.SponsorLogoUrl)
-                .HasConversion(v => v.ToString(), v => new Uri(v, UriKind.RelativeOrAbsolute));
-
-            builder.Entity<Test>()
-                .Property(t => t.DiscountUrl)
-                .HasConversion(v => v.ToString(), v => new Uri(v, UriKind.RelativeOrAbsolute));
-
-            builder.Entity<Test>()
-                .Property(t => t.DiscountLogoUrl)
-                .HasConversion(v => v.ToString(), v => new Uri(v, UriKind.RelativeOrAbsolute));
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             base.OnModelCreating(builder);
-
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
     }
 }

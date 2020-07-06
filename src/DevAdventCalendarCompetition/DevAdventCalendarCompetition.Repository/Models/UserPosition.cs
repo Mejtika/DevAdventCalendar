@@ -1,4 +1,4 @@
-﻿namespace DevAdventCalendarCompetition.Repository.Models
+namespace DevAdventCalendarCompetition.Repository.Models
 {
     public class UserPosition
     {

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using DevAdventCalendarCompetition.Repository.Interfaces;
 using DevAdventCalendarCompetition.Repository.Models;
@@ -10,18 +12,18 @@ namespace DevAdventCalendarCompetition.Services
     public class TestService : ITestService
     {
         private readonly ITestRepository _testRepository;
-        private readonly ITestAnswerRepository _testAnswerRepository;
+        private readonly IUserTestAnswersRepository _userTestAnswersRepository;
         private readonly IMapper _mapper;
         private readonly StringHasher _stringHasher;
 
         public TestService(
             ITestRepository baseTestRepository,
-            ITestAnswerRepository testAnswerRepository,
+            IUserTestAnswersRepository userTestAnswersRepository,
             IMapper mapper,
             StringHasher stringHasher)
         {
             this._testRepository = baseTestRepository;
-            this._testAnswerRepository = testAnswerRepository;
+            this._userTestAnswersRepository = userTestAnswersRepository;
             this._mapper = mapper;
             this._stringHasher = stringHasher;
         }
@@ -40,7 +42,7 @@ namespace DevAdventCalendarCompetition.Services
             var answerTimeOffset = currentTime.Subtract(testStartDate);
             var maxAnswerTime = new TimeSpan(0, 23, 59, 59, 999);
 
-            var testAnswer = new TestAnswer()
+            var testAnswer = new UserTestCorrectAnswer()
             {
                 TestId = testId,
                 UserId = userId,
@@ -49,24 +51,24 @@ namespace DevAdventCalendarCompetition.Services
             };
 
             // TODO remove (for tests only)
-            this._testAnswerRepository.AddAnswer(testAnswer);
+            this._userTestAnswersRepository.AddAnswer(testAnswer);
         }
 
-        public TestAnswerDto GetAnswerByTestId(int testId)
+        public TestCorrectAnswerDto GetAnswerByTestId(int testId)
         {
-            var testAnswer = this._testAnswerRepository.GetAnswerByTestId(testId);
-            var testAnswerDto = this._mapper.Map<TestAnswerDto>(testAnswer);
+            var testAnswer = this._userTestAnswersRepository.GetAnswerByTestId(testId);
+            var testAnswerDto = this._mapper.Map<TestCorrectAnswerDto>(testAnswer);
             return testAnswerDto;
         }
 
         public bool HasUserAnsweredTest(string userId, int testNumber)
         {
-            return this._testAnswerRepository.HasUserAnsweredTest(userId, testNumber);
+            return this._userTestAnswersRepository.HasUserAnsweredTest(userId, testNumber);
         }
 
         public void AddTestWrongAnswer(string userId, int testId, string wrongAnswer, DateTime wrongAnswerDate)
         {
-            var testWrongAnswer = new TestWrongAnswer()
+            var testWrongAnswer = new UserTestWrongAnswer()
             {
                 UserId = userId,
                 Time = wrongAnswerDate,
@@ -74,12 +76,12 @@ namespace DevAdventCalendarCompetition.Services
                 TestId = testId
             };
 
-            this._testAnswerRepository.AddWrongAnswer(testWrongAnswer);
+            this._userTestAnswersRepository.AddWrongAnswer(testWrongAnswer);
         }
 
-        public bool VerifyTestAnswer(string userAnswer, string correntAnswer)
+        public bool VerifyTestAnswer(string userAnswer, IEnumerable<string> correctAnswers)
         {
-            return this._stringHasher.VerifyHash(userAnswer, correntAnswer);
+            return correctAnswers.Any(t => this._stringHasher.VerifyHash(userAnswer, t));
         }
     }
 }

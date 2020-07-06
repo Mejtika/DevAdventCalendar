@@ -12,16 +12,16 @@ namespace DevAdventCalendarCompetition.Services
     public class ResultsService : IResultsService
     {
         private readonly IResultsRepository _resultsRepository;
-        private readonly ITestAnswerRepository _testAnswerRepository;
+        private readonly IUserTestAnswersRepository _userTestAnswersRepository;
         private readonly IMapper _mapper;
 
         public ResultsService(
             IResultsRepository resultsRepository,
-            ITestAnswerRepository testAnswerRepository,
+            IUserTestAnswersRepository userTestAnswersRepository,
             IMapper mapper)
         {
             this._resultsRepository = resultsRepository;
-            this._testAnswerRepository = testAnswerRepository;
+            this._userTestAnswersRepository = userTestAnswersRepository;
             this._mapper = mapper;
         }
 
@@ -104,8 +104,8 @@ namespace DevAdventCalendarCompetition.Services
                     break;
             }
 
-            var correctAnswers = this._testAnswerRepository.GetCorrectAnswersPerUserForDateRange(dateFrom, dateTo);
-            var wrongAnswers = this._testAnswerRepository.GetWrongAnswersPerUserForDateRange(dateFrom, dateTo);
+            var correctAnswers = this._userTestAnswersRepository.GetCorrectAnswersPerUserForDateRange(dateFrom, dateTo);
+            var wrongAnswers = this._userTestAnswersRepository.GetWrongAnswersPerUserForDateRange(dateFrom, dateTo);
 
             foreach (var result in results)
             {

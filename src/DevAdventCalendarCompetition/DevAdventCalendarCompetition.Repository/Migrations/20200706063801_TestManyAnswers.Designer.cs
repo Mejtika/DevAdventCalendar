@@ -4,14 +4,16 @@ using DevAdventCalendarCompetition.Repository.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DevAdventCalendarCompetition.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200706063801_TestManyAnswers")]
+    partial class TestManyAnswers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,10 +179,11 @@ namespace DevAdventCalendarCompetition.Repository.Migrations
 
             modelBuilder.Entity("DevAdventCalendarCompetition.Repository.Models.UserTestCorrectAnswer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("AnsweringTime")
                         .HasColumnType("datetime2");
@@ -188,15 +191,10 @@ namespace DevAdventCalendarCompetition.Repository.Migrations
                     b.Property<TimeSpan>("AnsweringTimeOffset")
                         .HasColumnType("time");
 
-                    b.Property<int>("TestId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TestId");
+                    b.HasKey("TestId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -205,26 +203,22 @@ namespace DevAdventCalendarCompetition.Repository.Migrations
 
             modelBuilder.Entity("DevAdventCalendarCompetition.Repository.Models.UserTestWrongAnswer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Answer")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TestId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TestId");
+                    b.HasKey("TestId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -405,7 +399,9 @@ namespace DevAdventCalendarCompetition.Repository.Migrations
 
                     b.HasOne("DevAdventCalendarCompetition.Repository.Models.ApplicationUser", "User")
                         .WithMany("CorrectAnswers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DevAdventCalendarCompetition.Repository.Models.UserTestWrongAnswer", b =>
@@ -418,7 +414,9 @@ namespace DevAdventCalendarCompetition.Repository.Migrations
 
                     b.HasOne("DevAdventCalendarCompetition.Repository.Models.ApplicationUser", "User")
                         .WithMany("WrongAnswers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
